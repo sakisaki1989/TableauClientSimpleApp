@@ -17,6 +17,8 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './token-interceptor.service';
 import { ComponentsService } from './components.service';
+import { LoadingSpinnercomponent } from './shared/loading-spinner/loading-spinner.component';
+import { HeaderComponent } from './header/header.component';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent},
@@ -38,7 +40,9 @@ const appRoutes: Routes = [
     GetDataComponent,
     HomeComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    LoadingSpinnercomponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

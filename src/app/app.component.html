@@ -1,50 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <img src="assets/img/clarivate.png"
-        class="img-responsive"
-        style="margin-left: 5px;margin-top: 5px;  outline: transparent; cursor: pointer"
-        routerLinkActive="active"
-        [routerLink]="['home']" >
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto" style="margin-left: 20vw">
-      <li role="presentation"
-          class="nav-item"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="basic_embed" *ngIf="_authService.loggedIn()">Basic Embed</a>
-      </li>
-      <li role="presentation"
-          class="nav-item"
-          routerLinkActive="active">
-        <a class="nav-link" routerLink="dynamicLoad" *ngIf="_authService.loggedIn()">Dynamic Load</a>
-      </li>
-      <li role="presentation"
-          class="nav-item"
-          routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['export2pdf']" *ngIf="_authService.loggedIn()">Export to PDF</a>
-      </li>
-      <li role="presentation"
-          class="nav-item"
-          routerLinkActive="active">
-        <a class="nav-link" routerLink="filter" *ngIf="_authService.loggedIn()">Filter</a>
-      </li>
-      <li role="presentation"
-          class="nav-item"
-          routerLinkActive="active">
-        <a class="nav-link" routerLink="getData" *ngIf="_authService.loggedIn()">getData()</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav">
-      <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="" routerLinkActive="active">Login</a>
-      <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
-      <a class="nav-link" style="cursor:pointer" *ngIf="_authService.loggedIn()" (click)="_authService.logoutUser()">Logout</a> 
-    </ul>
-  </div>
-</nav>
-<div class="container" style="margin-left: 18vw;">
+<app-header></app-header>
+<div class="container" style="text-align: center">
   <div class="row">
     <div class="col-lg-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <router-outlet></router-outlet>
