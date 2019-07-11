@@ -27,13 +27,12 @@ export class RegisterComponent implements OnInit {
       password: form.value.password,
       role: form.value.role
     };
-    console.log(this.registerUserData);
     this.isLoading = true;
     this.auth.registerUser(this.registerUserData)
       .subscribe(
         res => {
           this.isLoading = false;
-          localStorage.setItem('token', res.token)
+          sessionStorage.setItem('token', res.token)
           this.router.navigate(['home'])
         },
         err => {

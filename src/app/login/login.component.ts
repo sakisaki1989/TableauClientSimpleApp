@@ -29,11 +29,10 @@ export class LoginComponent implements OnInit {
       password: form.value.password
     };
     this.isLoading = true;
-    console.log(this.loginUserData);
     this._auth.loginUser(this.loginUserData)
     .subscribe(
       res => {
-        localStorage.setItem('token', res.user.token)
+        sessionStorage.setItem('token', res.user.token)
         this._router.navigate(['home'])
         this.isLoading = false;
       },

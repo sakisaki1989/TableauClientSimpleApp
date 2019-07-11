@@ -3,6 +3,7 @@ import 'tableau-api';
 import { ComponentsService } from '../components.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 declare var tableau: any;
 
 @Component({
@@ -15,7 +16,7 @@ export class GetDataComponent implements OnInit {
   res: number;
   sheet: any;
   table: any;
-  constructor(private componentService: ComponentsService, private router: Router) { }
+  constructor(private componentService: ComponentsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     const containerDiv = document.getElementById('vizContainer');
@@ -26,6 +27,7 @@ export class GetDataComponent implements OnInit {
         if( err instanceof HttpErrorResponse ) {
           if (err.status === 401) {
             window.alert('401 Unauthorized request')
+            this.authService.logoutUser();
             this.router.navigate([''])
           } else {console.log(err)
           }

@@ -14,7 +14,7 @@
           class="nav-item"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">
-        <a class="nav-link" routerLink="basic_embed" *ngIf="_authService.loggedIn()">Basic Embed</a>
+        <a class="nav-link" routerLink="basic_embed" *ngIf="_authService.loggedIn() && getRole() ==='ROLE_ADMIN'">Basic Embed</a>
       </li>
       <li role="presentation"
           class="nav-item"
@@ -24,7 +24,7 @@
       <li role="presentation"
           class="nav-item"
           routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['export2pdf']" *ngIf="_authService.loggedIn() && _authService.role ==='admin'">Export to PDF</a>
+        <a class="nav-link" [routerLink]="['export2pdf']" *ngIf="_authService.loggedIn()">Export to PDF</a>
       </li>
       <li role="presentation"
           class="nav-item"
@@ -34,7 +34,7 @@
       <li role="presentation"
           class="nav-item"
           routerLinkActive="active">
-        <a class="nav-link" routerLink="getData" *ngIf="_authService.loggedIn() && _authService.role ==='admin'">getData()</a>
+        <a class="nav-link" routerLink="getData" *ngIf="_authService.loggedIn() && getRole() ==='ROLE_ADMIN'">getData()</a>
       </li>
     </ul>
     <ul class="navbar-nav">

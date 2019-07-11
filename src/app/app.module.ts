@@ -19,6 +19,7 @@ import { TokenInterceptorService } from './token-interceptor.service';
 import { ComponentsService } from './components.service';
 import { LoadingSpinnercomponent } from './shared/loading-spinner/loading-spinner.component';
 import { HeaderComponent } from './header/header.component';
+import { EncrDecrService } from './encr-decr.service';
 
 const appRoutes: Routes = [
   {path: '', component: LoginComponent},
@@ -50,12 +51,14 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService, AuthGuard, 
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass:TokenInterceptorService,
-      multi: true},
-    ComponentsService],
+  providers: [
+    AuthService, 
+    AuthGuard, 
+    ComponentsService,
+    EncrDecrService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass:TokenInterceptorService,
+    multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

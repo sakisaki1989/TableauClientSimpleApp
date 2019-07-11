@@ -1,19 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import 'tableau-api';
+import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import { ComponentsService } from '../components.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TokenInterceptorService } from '../token-interceptor.service';
+import { AuthService } from '../auth.service';
 declare var tableau: any;
 
 @Component({
   selector: 'app-export-to-pdf',
   templateUrl: './export-to-pdf.component.html',
-  styleUrls: ['./export-to-pdf.component.css']
+  styleUrls: ['./export-to-pdf.component.css'],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass:TokenInterceptorService,
+    multi: true}]
 })
 export class ExportToPDFComponent implements OnInit {
   viz: any;
   res: number;
-  constructor(private componentService: ComponentsService, private router: Router) { }
+  constructor(private componentService: ComponentsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     const placeholderDiv = document.getElementById('vizContainer');
@@ -24,6 +31,7 @@ export class ExportToPDFComponent implements OnInit {
     err => {
       if( err instanceof HttpErrorResponse ) {
         if (err.status === 401) {
+          this.authService.logoutUser();
           this.router.navigate([''])
         }
       }

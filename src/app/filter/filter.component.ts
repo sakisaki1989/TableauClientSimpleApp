@@ -1,19 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import 'tableau-api';
+import {HTTP_INTERCEPTORS} from '@angular/common/http'
 import { ComponentsService } from '../components.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TokenInterceptorService } from '../token-interceptor.service';
+import { AuthService } from '../auth.service';
 declare var tableau: any;
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.css'],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass:TokenInterceptorService,
+    multi: true}]
 })
 export class FilterComponent implements OnInit {
   viz: any;
   res: number;
-  constructor(private componentService: ComponentsService, private router: Router) { }
+  constructor(private componentService: ComponentsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     const containerDiv = document.getElementById('vizContainer');
@@ -23,6 +30,7 @@ export class FilterComponent implements OnInit {
       err => {
         if( err instanceof HttpErrorResponse ) {
           if (err.status === 401) {
+            this.authService.logoutUser();
             this.router.navigate([''])
           }else {console.log(err)
           }

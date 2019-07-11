@@ -3,12 +3,14 @@ import 'tableau-api';
 import { ComponentsService } from '../components.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 declare var tableau: any;
 
 @Component({
   selector: 'app-dynamic-load',
   templateUrl: './dynamic-load.component.html',
-  styleUrls: ['./dynamic-load.component.css']
+  styleUrls: ['./dynamic-load.component.css'],
+
 })
 export class DynamicLoadComponent implements OnInit {
   // now declare an instance var
@@ -23,7 +25,7 @@ export class DynamicLoadComponent implements OnInit {
 
   vizLen: number = this.vizList.length;
 
-  constructor(private componentService: ComponentsService, private router: Router) { }
+  constructor(private componentService: ComponentsService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.componentService.getDynamicLoadUrl().subscribe(
@@ -31,6 +33,7 @@ export class DynamicLoadComponent implements OnInit {
       err => {
         if( err instanceof HttpErrorResponse ) {
           if (err.status === 401) {
+            this.authService.logoutUser();
             this.router.navigate([''])
           }
         }
