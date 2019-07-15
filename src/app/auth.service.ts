@@ -22,13 +22,13 @@ export class AuthService {
 
   registerUser(user) {
     return this.http.post<any>(this.registerUrl, user).pipe(tap(resData => {
-      this.handleAuthetication(resData.user.username, resData.user.id, resData.user.role, resData.user.token)
+      this.handleAuthetication(resData.user.username, resData.user.users_id, resData.user.roles.role, resData.user.token)
     }));
   }
 
   loginUser(user) {
     return this.http.post<any>(this.loginUrl, user).pipe(tap(resData => {
-      this.handleAuthetication(resData.user.username, resData.user.id, resData.user.role, resData.user.token)
+      this.handleAuthetication(resData.user.username, resData.user.users_id, resData.user.roles.role, resData.user.token)
     }));
   }
 
@@ -53,6 +53,8 @@ export class AuthService {
   handleAuthetication(username:string, userId: string,role: string, token: string) {
     const user = new User(username, userId, role,  token);
     this.role = role;
+    console.log(this.role);
+    
     const encryptedRole = this.EncrDecr.set('123456$#@$^@1ERF', this.role);
     sessionStorage.setItem('role', encryptedRole);
     
