@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -14,9 +13,12 @@ export class ComponentsService {
   private getDataUrl = "http://localhost:8080/spring-security-demo/getData";
 
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
-  getBasic_embed() {    
-    return this.http.get<any>(this.basic_embedUrl);
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService) {}
+
+  getBasic_embed(ticket: number) {    
+    return this.http.get<any>(this.basic_embedUrl + ticket);
   }
 
   getDynamicLoadUrl() {

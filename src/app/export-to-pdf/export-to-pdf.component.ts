@@ -24,10 +24,22 @@ export class ExportToPDFComponent implements OnInit {
 
   ngOnInit() {
     const placeholderDiv = document.getElementById('vizContainer');
-    const url = 'http://public.tableau.com/views/RegionalSampleWorkbook/Obesity';
-// Replace this url with the url of your Tableau dashboard
+    // Replace this url with the url of your Tableau dashboard
     this.componentService.getExport2pdfUrl().subscribe(
-    res => this.res = res,
+    res => {
+      this.res = res.url
+      var options = {
+        hideTabs: true,
+        width: "1200px",
+        height: "650px",
+        onFirstInteractive: function() {
+          // The viz is now ready and can be safely used.
+          console.log('Run this code when the viz has finished     loading.');
+        }
+      };
+      // Creating a viz object and embed it in the container div.
+      this.viz = new tableau.Viz(placeholderDiv, this.res, options);
+    },
     err => {
       if( err instanceof HttpErrorResponse ) {
         if (err.status === 401) {
@@ -37,17 +49,6 @@ export class ExportToPDFComponent implements OnInit {
       }
     }
 )
-    var options = {
-      hideTabs: true,
-      width: "1200px",
-      height: "650px",
-      onFirstInteractive: function() {
-        // The viz is now ready and can be safely used.
-        console.log('Run this code when the viz has finished     loading.');
-      }
-    };
-// Creating a viz object and embed it in the container div.
-    this.viz = new tableau.Viz(placeholderDiv, url, options);
   }
 
   exportToPDF() {

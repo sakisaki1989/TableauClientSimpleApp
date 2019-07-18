@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this._auth.loginUser(this.loginUserData)
     .subscribe(
       res => {
-        sessionStorage.setItem('token', res.user.token)
+        //sessionStorage.setItem('token', res.user.token)
         this._router.navigate(['home'])
         this.isLoading = false;
       },

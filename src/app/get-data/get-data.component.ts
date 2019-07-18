@@ -20,9 +20,15 @@ export class GetDataComponent implements OnInit {
 
   ngOnInit() {
     const containerDiv = document.getElementById('vizContainer');
-    const url = 'http://public.tableau.com/views/RegionalSampleWorkbook/Storms';
     this.componentService.getGetDataUrl().subscribe(
-      res => this.res = res,
+      res => {
+        this.res = res.url
+        const options = {
+          hideTabs: true,
+          hideToolbar: true,
+        };
+        this.viz = new tableau.Viz(containerDiv, this.res, options);
+      },
       err => {
         if( err instanceof HttpErrorResponse ) {
           if (err.status === 401) {
@@ -34,11 +40,6 @@ export class GetDataComponent implements OnInit {
         }
       }
     );
-    const options = {
-        hideTabs: true,
-        hideToolbar: true,
-      };
-    this.viz = new tableau.Viz(containerDiv, url, options);
   }
   getUnderlyingData(){
     this.sheet = this.viz.getWorkbook().getActiveSheet().getWorksheets().get('Storm Map Sheet');
@@ -51,7 +52,7 @@ export class GetDataComponent implements OnInit {
       includeAllColumns: false
     };
 
-    this.sheet.getUnderlyingDataAsync(options).then(t => {
+    this.sheet.getUnderlyingDataAsync(options).then((t: any) => {
       this.table = t;
       const tgt = document.getElementById('dataTarget');
       tgt.innerHTML = '<h4>Underlying Data:</h4><p>' + JSON.stringify(this.table.getData()) + '</p>';

@@ -24,9 +24,15 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     const containerDiv = document.getElementById('vizContainer');
-    const url = 'http://public.tableau.com/views/RegionalSampleWorkbook/College';
     this.componentService.getFilterUrl().subscribe(
-      res => this.res = res,
+      res => {
+        this.res = res.url
+        const options = {
+          'Academic Year': '',
+          hideTabs: true
+        };
+      this.viz = new tableau.Viz(containerDiv, this.res, options);
+    },
       err => {
         if( err instanceof HttpErrorResponse ) {
           if (err.status === 401) {
@@ -37,12 +43,7 @@ export class FilterComponent implements OnInit {
         }
       }
   )
-    const options = {
-        'Academic Year': '',
-        hideTabs: true
-      };
 
-    this.viz = new tableau.Viz(containerDiv, url, options);
   }
   yearFilter(year) {
     const sheet = this.viz.getWorkbook().getActiveSheet();

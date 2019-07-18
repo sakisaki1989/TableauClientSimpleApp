@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
       .subscribe(
         res => {
           this.isLoading = false;
-          sessionStorage.setItem('token', res.token)
+          //sessionStorage.setItem('token', res.token)
           this.router.navigate(['home'])
         },
         err => {
