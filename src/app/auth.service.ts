@@ -71,8 +71,8 @@ export class AuthService {
     return decrypted;
  }
 
-  handleAuthetication(username:string, userId: string, role: string, token: string) {
-    this.trustedAuth.requestTicket(username, "e.g. https://server_name", this.target_site ).subscribe(
+ handleAuthetication(username:string, userId: string, role: string, token: string) {
+     this.trustedAuth.requestTicket(username, "e.g. https://server_name", this.target_site ).subscribe(
       (res)=>{
         this.ticket = res;
       },
@@ -80,18 +80,17 @@ export class AuthService {
         this.ticket = -1;
         console.log(this.ticket); 
       }
-    )
-    const user = new User(
-    this.EncrDecr.set('123456$#@$^@1ERF', username),
-    this.EncrDecr.set('123456$#@$^@1ERF', userId), 
-    this.EncrDecr.set('123456$#@$^@1ERF', role),
-    token,
-    this.ticket.toString()
-    );
-    
-   
-    sessionStorage.setItem('user', JSON.stringify(user));
-    
-    this.user.next(user);
+    ).add(()=>{
+      const user = new User(
+        this.EncrDecr.set('123456$#@$^@1ERF', username),
+        this.EncrDecr.set('123456$#@$^@1ERF', userId), 
+        this.EncrDecr.set('123456$#@$^@1ERF', role),
+        token,
+        this.ticket.toString()
+        );
+        sessionStorage.setItem('user', JSON.stringify(user));
+        this.user.next(user);
+    })
   }
+
 }
